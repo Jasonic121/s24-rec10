@@ -17,6 +17,8 @@ public class Game {
     private final Board board;
     private final Player player;
     private final List<Game> history;
+    private Player winner;
+    private Player currPlayer;
 
     public Game() {
         this(new Board(), Player.PLAYER0);
@@ -30,6 +32,8 @@ public class Game {
         this.board = board;
         this.player = nextPlayer;
         this.history = history;
+        this.winner = null;
+        this.currPlayer = nextPlayer;
     }
 
     public Board getBoard() {
@@ -40,6 +44,11 @@ public class Game {
         return this.player;
     }
 
+    public Player getNextPlayer() {
+        if (this.getWinner() != null)
+            return this.winner;
+        return this.player == Player.PLAYER0 ? Player.PLAYER1 : Player.PLAYER0;
+    }
     public Game play(int x, int y) {
         if (this.board.getCell(x, y) != null)
             return this;

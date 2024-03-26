@@ -5,18 +5,46 @@ import java.util.Arrays;
 public class GameState {
 
     private final Cell[] cells;
+    private final Player winner;
+    private final Player currentPlayer;
+    private final Game game;
+    private final Player nextTurn;
 
-    private GameState(Cell[] cells) {
+    private GameState(Cell[] cells, Game game) {
         this.cells = cells;
+        this.game = game;
+        this.winner = game.getWinner();
+        this.currentPlayer = game.getPlayer();
+        this.nextTurn = game.getNextPlayer();
     }
 
     public static GameState forGame(Game game) {
         Cell[] cells = getCells(game);
-        return new GameState(cells);
+        return new GameState(cells, game);
     }
 
     public Cell[] getCells() {
         return this.cells;
+    }
+    public String getWinner() {
+        if (this.winner == null)
+            return "null";
+        else
+            return this.winner.toString();
+    }
+
+    public String getNextPlayer() {
+        if (this.nextTurn == null)
+            return "null";
+        else
+            return this.nextTurn.toString();
+    }
+
+    public String getCurrentPlayer() {
+        if (this.currentPlayer == null)
+            return "null";
+        else
+            return this.currentPlayer.toString();
     }
 
     /**
@@ -25,10 +53,12 @@ public class GameState {
      */
     @Override
     public String toString() {
-        return """
-                { "cells": %s}
-                """.formatted(Arrays.toString(this.cells));
+        return String.format(
+            "{ \"cells\": %s, \"winner\": \"%s\", \"currentPlayer\": \"%s\", \"nextTurn\": \"%s\" }",
+            Arrays.toString(this.cells), this.getWinner(), this.getCurrentPlayer(), this.getNextPlayer()
+        );
     }
+
 
     private static Cell[] getCells(Game game) {
         Cell cells[] = new Cell[9];
