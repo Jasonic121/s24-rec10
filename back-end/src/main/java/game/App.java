@@ -39,6 +39,10 @@ public class App extends NanoHTTPD {
             // e.g., /play?x=1&y=1
             this.game = this.game.play(Integer.parseInt(params.get("x")), Integer.parseInt(params.get("y")));
         }
+        // Implement Undo fuctionality
+        else if (uri.equals("/undo")) {
+            this.game = this.game.getPreviousGame();
+        }
         // Extract the view-specific data from the game and apply it to the template.
         GameState gameplay = GameState.forGame(this.game);
         return newFixedLengthResponse(gameplay.toString());

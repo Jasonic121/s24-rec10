@@ -3,6 +3,7 @@ interface GameState {
   winner: string | null;
   currentPlayer: string;
   nextTurn: string;
+  history?: string;
 }
 
 interface Cell {

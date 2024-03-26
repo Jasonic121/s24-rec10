@@ -36,6 +36,16 @@ public class Game {
         this.currPlayer = nextPlayer;
     }
 
+    public Game getPreviousGame() {
+        if (this.history.isEmpty())
+            return this;
+        return this.history.get(this.history.size() - 1);
+    } 
+
+    public int getHistorySize() {
+        return this.history.size();
+    }
+
     public Board getBoard() {
         return this.board;
     }
@@ -58,6 +68,11 @@ public class Game {
         newHistory.add(this);
         Player nextPlayer = this.player == Player.PLAYER0 ? Player.PLAYER1 : Player.PLAYER0;
         return new Game(this.board.updateCell(x, y, this.player), nextPlayer, newHistory);
+    }
+    public Game undo() {
+        if (this.history.isEmpty())
+            return this;
+        return this.history.get(this.history.size() - 1);
     }
 
     public Player getWinner() {

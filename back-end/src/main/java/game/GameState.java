@@ -1,6 +1,9 @@
 package game;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class GameState {
 
@@ -9,6 +12,7 @@ public class GameState {
     private final Player currentPlayer;
     private final Game game;
     private final Player nextTurn;
+    List<GameState> history = new ArrayList<>();
 
     private GameState(Cell[] cells, Game game) {
         this.cells = cells;
@@ -16,6 +20,31 @@ public class GameState {
         this.winner = game.getWinner();
         this.currentPlayer = game.getPlayer();
         this.nextTurn = game.getNextPlayer();
+        this.history = history;
+    }
+
+    /**
+     * Returns the history of game states leading up to the current state.
+     *
+     * @return a list of game states representing the history
+     */
+    public List<GameState> getAllHistoryState() {
+        GameState state = this;
+        while (state != null) {
+            history.add(state);
+            state = state.getPreviousState();
+        }
+        return history;
+    }
+
+    /**
+     * get the previous state of a game.
+     */
+    private GameState getPreviousState() {
+        if (history.size() > 0)
+            return history.get(history.size() - 1);
+        else
+            return null;
     }
 
     public static GameState forGame(Game game) {
@@ -47,15 +76,18 @@ public class GameState {
             return this.currentPlayer.toString();
     }
 
-    /**
+    public String getHistory() {
+        return history.stream().map(GameState::toString).collect(Collectors.joining(","));
+    }
+/**
      * toString() of GameState will return the string representing
      * the GameState in JSON format.
      */
     @Override
     public String toString() {
         return String.format(
-            "{ \"cells\": %s, \"winner\": \"%s\", \"currentPlayer\": \"%s\", \"nextTurn\": \"%s\" }",
-            Arrays.toString(this.cells), this.getWinner(), this.getCurrentPlayer(), this.getNextPlayer()
+            "{ \"cells\": %s, \"winner\": \"%s\", \"currentPlayer\": \"%s\", \"nextTurn\": \"%s\", \"history\": %s}",
+            Arrays.toString(this.cells), this.getWinner(), this.getCurrentPlayer(), this.getNextPlayer(), this.getHistory()
         );
     }
 

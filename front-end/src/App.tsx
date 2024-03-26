@@ -34,7 +34,7 @@ class App extends React.Component<Props, GameState> {
     /**
      * state has type GameState as specified in the class inheritance.
      */
-    this.state = { cells: [], winner: null, currentPlayer: '', nextTurn: '' }
+    this.state = { cells: [], winner: null, currentPlayer: '', nextTurn: '', history: '' }
   }
 
   /**
@@ -45,9 +45,18 @@ class App extends React.Component<Props, GameState> {
   newGame = async () => {
     const response = await fetch('/newgame');
     const json = await response.json();
-    this.setState({ cells: json['cells'] , winner : null, currentPlayer : json['currentPlayer'], nextTurn: json['nextTurn'] });
+    this.setState({ cells: json['cells'] , winner : null, currentPlayer : json['currentPlayer'], nextTurn: json['nextTurn'], history : json['history'] });
   }
 
+  /**
+   * Undoes the previous action by making a fetch request to '/undo' and updating the state with the response data.
+   */
+  undo = async () => {
+    const response = await fetch('/undo');
+    const json = await response.json();
+    this.setState({ cells: json['cells'], winner: json['winner'], currentPlayer: json['currentPlayer'], nextTurn: json['nextTurn'], history: json['history'] });
+
+  }
   /**
    * play will generate an anonymous function that the component
    * can bind with.
@@ -61,19 +70,22 @@ class App extends React.Component<Props, GameState> {
       e.preventDefault();
       const response = await fetch(`/play?x=${x}&y=${y}`)
       const json = await response.json();
-      this.setState({ cells: json['cells'], winner: json['winner'], currentPlayer: json['currentPlayer'], nextTurn: json['nextTurn'] });
+      this.setState({ cells: json['cells'], winner: json['winner'], currentPlayer: json['currentPlayer'], nextTurn: json['nextTurn'], history: json['history'] });
     }
   }
   /**
-   *  instruction of whose turn it is or who has won. 
+   * Returns the instructions based on the current game state.
+   * If there is a winner, it returns the winner's name.
+   * If there is no winner, it returns the current player's name and the next turn.
+   * 
+   * @returns The instructions as a string.
    */
   instructions(): string {
-    const cells = this.state.cells;
     const winner = this.state.winner;
     const currentPlayer = this.state.currentPlayer;
     const nextTurn = this.state.nextTurn;
 
-    if (winner != "null")
+    if (winner !== "null")
       return `Winner: ${winner}`;
     else 
       return `Current Player: ${currentPlayer}, Next Turn: ${nextTurn}`;
@@ -135,8 +147,7 @@ class App extends React.Component<Props, GameState> {
         </div>
         <div id="bottombar">
           <button onClick={this.newGame}>New Game</button>
-          {/* Exercise: implement Undo function */}
-          <button>Undo</button>
+          <button onClick={this.undo}>Undo</button>
         </div>
       </div>
     );
