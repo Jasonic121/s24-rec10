@@ -4,6 +4,7 @@ interface GameState {
   currentPlayer: string;
   nextTurn: string;
   history?: string;
+  themeName: string;
 }
 
 interface Cell {

@@ -26,6 +26,7 @@ interface Props { }
 class App extends React.Component<Props, GameState> {
   private initialized: boolean = false;
 
+
   /**
    * @param props has type Props
    */
@@ -34,9 +35,23 @@ class App extends React.Component<Props, GameState> {
     /**
      * state has type GameState as specified in the class inheritance.
      */
-    this.state = { cells: [], winner: null, currentPlayer: '', nextTurn: '', history: '' }
+    this.state = { cells: [], winner: null, currentPlayer: '', nextTurn: '', history: '', themeName: 'light-theme'}
   }
 
+  /**
+   * Changes the theme of the game.
+   * @param themeName the name of the theme to change to.
+   */
+  changeTheme = (themeName: string) => {
+    this.setState({ themeName });
+  };
+  /**
+   * Toggles the theme of the game between light, dark, and pink.
+   */
+  toggleTheme = () => {
+    const themeName = this.state.themeName === 'light-theme' ? 'dark-theme' : this.state.themeName === 'dark-theme' ? 'pink-theme' : 'light-theme';
+    this.setState({ themeName });
+  }
   /**
    * Use arrow function, i.e., () => {} to create an async function,
    * otherwise, 'this' would become undefined in runtime. This is
@@ -140,15 +155,16 @@ class App extends React.Component<Props, GameState> {
      * @see https://reactjs.org/docs/introducing-jsx.html
      */
     return (
-      <div>
-        <div id="instructions">{this.instructions()}</div>
-        <div id="board">
-          {this.state.cells.map((cell, i) => this.createCell(cell, i))}
-        </div>
-        <div id="bottombar">
-          <button onClick={this.newGame}>New Game</button>
-          <button onClick={this.undo}>Undo</button>
-        </div>
+      <div className={this.state.themeName} style={{ fontSize: '50px'}}> 
+      <div id="instructions">{this.instructions()}</div>
+      <div id="board">
+        {this.state.cells.map((cell, i) => this.createCell(cell, i))}
+      </div>
+      <div id="bottombar" style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <button onClick={this.newGame}>New Game</button>
+        <button onClick={this.undo}>Undo</button>
+        <button onClick={this.toggleTheme}>Toggle Theme</button>
+      </div>
       </div>
     );
   }

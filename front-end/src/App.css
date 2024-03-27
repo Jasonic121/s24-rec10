@@ -1,8 +1,46 @@
+:root {
+  --background-color: #2196F3; /* Default background color */
+  --cell-background-color: rgba(255, 255, 255, 0.8); /* Default cell background */
+  --cell-border-color: rgba(0, 0, 0, 0.8); /* Default cell border color */
+  /* Add other themeable properties here */
+}
 #board {
   display: grid;
   grid-template-columns: auto auto auto;
-  background-color: #2196F3;
-  padding: 10px
+  background-color: var(--background-color); /* Use var() to insert custom property */
+  padding: 10px;
+}
+
+ /* Dark theme */
+.dark-theme {
+  --background-color: #333;
+  --cell-background-color: #666;
+  --cell-border-color: #999;
+  --instructions-background-color: #b5b2b2;
+}
+ /* Light theme */
+.light-theme {
+  --background-color: #EEE;
+  --cell-background-color: #FFF;
+  --cell-border-color: #CCC;
+  --instructions-background-color: #f6f6f6;
+}
+
+ /* Pink theme */
+.pink-theme {
+  --background-color: #FFC0CB;
+  --cell-background-color: #FF69B4;
+  --cell-border-color: #FF1493;
+  --instructions-background-color: #FFB6C1;
+}
+
+.cell {
+  background-color: var(--cell-background-color);
+  border: 1px solid var(--cell-border-color);
+  padding: 20px;
+  font-size: 30px;
+  height: 25vmin;
+  text-align: center;
 }
 
 .cell {
@@ -20,7 +58,7 @@
 
 #instructions {
   height: 5vh;
-  background-color: white;
+  background-color: var(--instructions-background-color);
   padding: 0px;
   margin: 0px;
   text-align: center;
@@ -34,7 +72,8 @@
   padding: 0;
   position: relative;
   float: left;
-  font-size: 2vw
+  font-size: 2vw;
+  background-color: var(--instructions-background-color);
 }
 
 html,
@@ -44,4 +83,4 @@ body {
   padding: 0;
 }
 
-.playable { background-color: red;}
+.playable { background-color: rgb(219, 215, 9);}
