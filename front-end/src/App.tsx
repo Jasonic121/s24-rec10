@@ -155,16 +155,16 @@ class App extends React.Component<Props, GameState> {
      * @see https://reactjs.org/docs/introducing-jsx.html
      */
     return (
-      <div className={this.state.themeName} style={{ fontSize: '50px'}}> 
-      <div id="instructions">{this.instructions()}</div>
-      <div id="board">
-        {this.state.cells.map((cell, i) => this.createCell(cell, i))}
-      </div>
-      <div id="bottombar" style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <button onClick={this.newGame}>New Game</button>
-        <button onClick={this.undo}>Undo</button>
-        <button onClick={this.toggleTheme}>Toggle Theme</button>
-      </div>
+      <div className={this.state.themeName} style={{ fontSize: '30px'}}> 
+        <div id="instructions">{this.instructions()}</div>
+        <div id="board">
+          {this.state.cells.map((cell, i) => this.createCell(cell, i))}
+        </div>
+        <div id="bottombar" style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <button onClick={this.newGame}>New Game</button>
+          <button onClick={this.undo}>Undo</button>
+          <button onClick={this.toggleTheme}>Toggle Theme</button>
+        </div>
       </div>
     );
   }

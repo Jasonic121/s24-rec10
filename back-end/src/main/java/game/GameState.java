@@ -86,7 +86,7 @@ public class GameState {
     @Override
     public String toString() {
         return String.format(
-            "{ \"cells\": %s, \"winner\": \"%s\", \"currentPlayer\": \"%s\", \"nextTurn\": \"%s\", \"history\": %s}",
+            "{ \"cells\": %s, \"winner\": \"%s\", \"currentPlayer\": \"%s\", \"nextTurn\": \"%s\", \"history\": \"%s\" }",
             Arrays.toString(this.cells), this.getWinner(), this.getCurrentPlayer(), this.getNextPlayer(), this.getHistory()
         );
     }
